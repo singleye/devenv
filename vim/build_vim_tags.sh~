@@ -7,7 +7,7 @@ if [ -z $PROJECT ]; then
 fi
 
 # Use 'pwd' to build the file list with full path rather than relative path.
-# This is useful for cscope for finding the symbols in vim.
+# This is useful for cscope for finding the symbols
 find `pwd` -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" > .filelist
 cscope -bq -i .filelist
 ctags -L .filelist
