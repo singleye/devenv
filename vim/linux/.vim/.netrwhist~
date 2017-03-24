@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/Users/wangq/work/projects/Ozner/decompile/OznerCup_source_from_JADX/com/ozner/probe/activity'
+let g:netrw_dirhist_2='/Users/wangq/work/test/utils/tpwn'
+let g:netrw_dirhist_3='/Users/wangq/work/test/python/s8server/v2-polling-probe-data'
+let g:netrw_dirhist_4='/Users/wangq/work/workspace/EMC/2.2.x/src/mds'
+let g:netrw_dirhist_5='/Users/wangq/work/workspace/EMC/2.2.x/src/cc'
+let g:netrw_dirhist_6='/Users/wangq'
+let g:netrw_dirhist_7='/Users/wangq/work/workspace/iwater/svn/iotserver/.git'
+let g:netrw_dirhist_8='/home/wangq/dev/svn/tahoe/server'
