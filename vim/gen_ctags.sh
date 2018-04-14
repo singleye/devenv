@@ -15,7 +15,7 @@ echo "List file: $FILELIST"
 
 # Use 'pwd' to build the file list with full path rather than relative path.
 # This is useful for cscope for finding the symbols in vim.
-find $PROJECT_PATH -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" > $FILELIST
+find $PROJECT_PATH -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" -o -name "*.py" -o -name "*.java" > $FILELIST
 cscope -bq -i $FILELIST
 ctags -L $FILELIST
 

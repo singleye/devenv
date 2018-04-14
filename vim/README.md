@@ -1,4 +1,6 @@
-VIM is a powerful editor which could be customized with plugins. After sometime you would have multiple customized vim environments. This tool provides a method to maintain those environments and easily switch between them.
+VIM is a powerful editor which could be customized with plugins. I use it in my daily development, I have several vim environment configured for different development environment. Then it's a little bit complicated to switch between them.
+
+This repository maintains my vim enviroments and switching tools to simplify the maintenance.
 
 
 # Tool
