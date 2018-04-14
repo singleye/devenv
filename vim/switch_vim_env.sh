@@ -1,16 +1,18 @@
 #!/bin/sh
 
+TOOL_PATH=$(dirname $0)
+#TOOL_PATH=$(dirname ${BASH_SOURCE[0]})
+#TOOL_PATH=$(dirname ${BASH_SOURCE:-$0})
 
 ENV=$1
-
 
 function usage {
     echo "Please specify the vim env:"
     echo "  Options:"
-    echo "    'environement/simplified': select the simplified version, response quickly"
-    echo "    'environement/adv': select the advanced version, response slower"
-    echo "    'environement/cutomized': select the customized version"
-    echo "  Example: $0 environment/simplified"
+    echo "    '$TOOL_PATH/environment/simplified': select the simplified version, response quickly"
+    echo "    '$TOOL_PATH/environment/adv': select the advanced version, response slower"
+    echo "    '$TOOL_PATH/environment/cutomized': select the customized version"
+    echo "  Example: $0 $TOOL_PATH/environment/simplified"
 }
 
 if [ ! -d $ENV ]; then
