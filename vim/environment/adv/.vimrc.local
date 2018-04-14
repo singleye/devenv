@@ -1,0 +1,301 @@
+syntax enable
+set background=dark
+colorscheme solarized
+
+"===================================================================================
+" BUFFERS, WINDOWS
+"===================================================================================
+"
+"-------------------------------------------------------------------------------
+" The current directory is the directory of the file in the current window.
+"-------------------------------------------------------------------------------
+if has("autocmd")
+  autocmd BufEnter * :lchdir %:p:h
+endif
+"
+"-------------------------------------------------------------------------------
+" close window (conflicts with the KDE setting for calling the process manager)
+"-------------------------------------------------------------------------------
+ noremap  <C-Esc>       :close<CR>
+inoremap  <C-Esc>  <C-C>:close<CR>
+"
+"-------------------------------------------------------------------------------
+" Fast switching between buffers
+" The current buffer will be saved before switching to the next one.
+" Choose :bprevious or :bnext
+"-------------------------------------------------------------------------------
+ noremap  <silent> <s-tab>       :if &modifiable && !&readonly && 
+     \                      &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+inoremap  <silent> <s-tab>  <C-C>:if &modifiable && !&readonly && 
+     \                      &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+"
+"-------------------------------------------------------------------------------
+" Leave the editor with Ctrl-q (KDE): Write all changed buffers and exit Vim
+"-------------------------------------------------------------------------------
+nnoremap  <C-q>    :wqall<CR>
+"
+"-------------------------------------------------------------------------------
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+"-------------------------------------------------------------------------------
+if has("autocmd")
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+endif " has("autocmd")
+"
+"-------------------------------------------------------------------------------
+"  some additional hot keys
+"-------------------------------------------------------------------------------
+"    F2   -  write file without confirmation
+"    F3   -  call file explorer Ex
+"    F4   -  show tag under curser in the preview window (tagfile must exist!)
+"    F5   -  open quickfix error window
+"    F6   -  close quickfix error window
+"    F7   -  display previous error
+"    F8   -  display next error   
+"-------------------------------------------------------------------------------
+"
+"map   <silent> <F2>        :write<CR>
+"map   <silent> <F3>        :Explore<CR>
+nmap  <silent> <F4>        :exe ":ptag ".expand("<cword>")<CR>
+map   <silent> <F5>        :copen<CR>
+map   <silent> <F6>        :cclose<CR>
+map   <silent> <F7>        :cp<CR>
+map   <silent> <F8>        :cn<CR>
+"
+"imap  <silent> <F2>   <Esc>:write<CR>
+"imap  <silent> <F3>   <Esc>:Explore<CR>
+imap  <silent> <F4>   <Esc>:exe ":ptag ".expand("<cword>")<CR>
+imap  <silent> <F5>   <Esc>:copen<CR>
+imap  <silent> <F6>   <Esc>:cclose<CR>
+imap  <silent> <F7>   <Esc>:cp<CR>
+imap  <silent> <F8>   <Esc>:cn<CR>
+"
+"-------------------------------------------------------------------------------
+" Fast switching between buffers
+" The current buffer will be saved before switching to the next one.
+" Choose :bprevious or :bnext
+"-------------------------------------------------------------------------------
+"
+ map  <silent> <s-tab>  <Esc>:if &modifiable && !&readonly && 
+     \                  &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+imap  <silent> <s-tab>  <Esc>:if &modifiable && !&readonly && 
+     \                  &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+"
+"-------------------------------------------------------------------------------
+" Leave the editor with Ctrl-q : Write all changed buffers and exit Vim
+"-------------------------------------------------------------------------------
+nmap  <C-q>    :wqa<CR>
+"
+"-------------------------------------------------------------------------------
+" autocomplete parenthesis, brackets and braces
+"-------------------------------------------------------------------------------
+"inoremap ( ()<Left>
+"inoremap [ []<Left>
+"inoremap { {}<Left>
+"
+"vnoremap ( s()<Esc>P<Right>%
+"vnoremap [ s[]<Esc>P<Right>%
+"vnoremap { s{}<Esc>P<Right>%
+"
+"-------------------------------------------------------------------------------
+" autocomplete quotes (visual and select mode)
+"-------------------------------------------------------------------------------
+"xnoremap  '  s''<Esc>P<Right>
+"xnoremap  "  s""<Esc>P<Right>
+"xnoremap  `  s``<Esc>P<Right>
+"
+"-------------------------------------------------------------------------------
+" Change the working directory to the directory containing the current file
+"-------------------------------------------------------------------------------
+if has("autocmd")
+  autocmd BufEnter * :lchdir %:p:h
+endif " has("autocmd")
+"
+"===================================================================================
+" VARIOUS PLUGIN CONFIGURATIONS
+"===================================================================================
+"
+"-------------------------------------------------------------------------------
+" c.vim
+"-------------------------------------------------------------------------------
+"
+" --empty --
+"
+
+
+"------------------------------------------------------------------------------
+" Tag list
+" taglist.vim : toggle the taglist window
+" taglist.vim : define the title texts for make
+" taglist.vim : define the title texts for qmake
+"------------------------------------------------------------------------------
+ noremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
+inoremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
+
+let tlist_make_settings  = 'make;m:makros;t:targets'
+let tlist_qmake_settings = 'qmake;t:SystemVariables'
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_Show_One_File=1
+
+if has("autocmd")
+  " ----------  qmake : set filetype for *.pro  ----------
+  autocmd BufNewFile,BufRead *.pro  set filetype=qmake
+endif " has("autocmd")
+
+let tlist_template_settings  = 'template;t:template'
+
+
+"---------------------------------------------------------------
+" plugin templates : set filetype for *.template  
+"---------------------------------------------------------------
+if has("autocmd")
+  autocmd BufNewFile,BufRead Templates  set filetype=template
+  autocmd BufNewFile,BufRead *.template  set filetype=template
+endif " has("autocmd")
+
+
+"------------------------------------------------------------------------------
+"pydiction
+"------------------------------------------------------------------------------
+let g:pydiction_location = '~/.vim/plugin/pydiction/complete-dict'
+let g:pydiction_menu_height = 5
+
+
+"------------------------------------------------------------------------------
+"winmanager
+"------------------------------------------------------------------------------
+map <c-w><c-f> :FirstExplorerWindow<cr> 
+map <c-w><c-b> :BottomExplorerWindow<cr> 
+map <c-w><c-t> :WMToggle<cr> 
+let g:winManagerWindowLayout='FileExplorer|TagList'
+
+
+"------------------------------------------------------------------------------
+"cscope
+" plugin is located under .vim/plugin directory
+"------------------------------------------------------------------------------
+"if has('cscope')
+"    " cscopetag on means Vim will include the cscope database whenever we
+"    " search for a tag (e.g. by hitting <CTRL-]> in a C program).
+"    " cscopeverbose on (optional) gives us a success/failure message when
+"    " trying to add a cscope database (including the one near the end of this
+"    " snippet).
+"    set cscopetag cscopeverbose
+"
+"    if has('quickfix')
+"        set cscopequickfix=s-,c-,d-,i-,t-,e-
+"    endif
+"
+"    cnoreabbrev csa cs add
+"    cnoreabbrev csf cs find
+"    cnoreabbrev csk cs kill
+"    cnoreabbrev csr cs reset
+"    cnoreabbrev css cs show
+"    cnoreabbrev csh cs help
+"
+"    "command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
+"    command -nargs=0 Cscope cs add $VIMSRC/cscope.out $VIMSRC/
+"
+"    " Find this difinition
+"    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+"
+"    " Find functions calling this function
+"    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+"
+"    " Find this C symbol
+"    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"
+"    " Find this text string
+"    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+"
+"    " Find this egrep pattern
+"    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"
+"    " Find this file
+"    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"
+"    " Find files #including this file
+"    nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+"
+"    " Find functions called by this function
+"    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+"
+"endif
+
+
+"------------------------------------------------------------------------------
+"grep
+"------------------------------------------------------------------------------
+nnoremap <silent> <F3> :Grep<CR> 
+
+set list listchars=tab:→\ ,trail:·
+
+" highlight json as javascript format
+autocmd BufNewFile,BufRead *.json set filetype=javascript
+
+
+"------------------------------------------------------------------------------
+" Tag list
+"------------------------------------------------------------------------------
+let Tlist_Exit_OnlyWindow = 1 "如果taglist窗口是最后一个窗口，则退出vim  
+
+
+
+let g:pydiction_location = '~/.vim/plugin/pydiction/complete-dict'
+
+" YouCompleteMe settings
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+" 输入第0个字符开始补全
+let g:ycm_min_num_of_chars_for_completion=0
+" 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 开启语义补全
+let g:ycm_seed_identifiers_with_syntax=1
+" 在注释输入中也能补全
+let g:ycm_complete_in_comments = 1
+" 在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_filetype_whitelist = { 'python': 1 }
+let g:ycm_python_binary_path = 'python'
+map <C-G>  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"  fix .cpp error: ValueError: Still no compile flags, no completions yet.
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+" Vim's autocomplete is excruciatingly slow
+" http://stackoverflow.com/questions/2169645/vims-autocomplete-is-excruciatingly-slow
+set complete-=i
+
+
+" Project: kaasdk-10
+set tags+=~/.vim/projects/kaasdk-10/tags
+cs add ~/.vim/projects/kaasdk-10/cscope.out
+
+" Project: mosquitto
+set tags+=~/.vim/projects/mosquitto/tags
+cs add ~/.vim/projects/mosquitto/cscope.out
+
+" Project: esp8266-2.3.0
+set tags+=~/.vim/projects/esp8266-2.3.0/tags
+cs add ~/.vim/projects/esp8266-2.3.0/cscope.out
+
+" Project: kaa-0.9
+set tags+=~/.vim/projects/kaa-0.9/tags
+cs add ~/.vim/projects/kaa-0.9/cscope.out
+
+" Project: darknet
+set tags+=~/.vim/projects/darknet/tags
+cs add ~/.vim/projects/darknet/cscope.out
+
+" Project: venvtest
+set tags+=~/.vim/projects/venvtest/tags
+cs add ~/.vim/projects/venvtest/cscope.out
+
+" Project: kernel
+set tags+=~/.vim/projects/kernel/tags
+cs add ~/.vim/projects/kernel/cscope.out
+

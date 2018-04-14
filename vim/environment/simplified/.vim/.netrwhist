@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/Users/wangq/tmp/djangoReact/frontend/src/app'
+let g:netrw_dirhist_2='/Users/wangq/tmp/webpack-demo/src'
+let g:netrw_dirhist_3='/Users/wangq/tmp/django-react-template/backend/apps/users'
+let g:netrw_dirhist_4='/Users/wangq/tmp/django-react-template/backend/static/adminlte'
+let g:netrw_dirhist_5='/Users/wangq/Qsync/work/Repository/test/react/tutorial/src'
+let g:netrw_dirhist_6='/Users/wangq/Qsync/work/Repository/test/react/tutorial/src/Refs'
+let g:netrw_dirhist_7='/Users/wangq/Qsync/work/Blogs/myhugoblog/public/post'
+let g:netrw_dirhist_8='/Users/wangq/Qsync/work/Repository/workspace/iwater/svn/users/sh/KnowledgeBase/archetypes'
